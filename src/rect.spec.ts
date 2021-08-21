@@ -4,7 +4,7 @@ import {
   rectContainsCoord,
   rectIntervalOnX,
   rectIntervalOnY,
-  rectDirection,
+  // rectDirection,
   rectRelativePosition,
   rectWidth,
   rectHeight,
@@ -22,17 +22,10 @@ import {
   rectIsW,
   rectScale,
   rectDistanceX,
-  rectDistanceY
+  rectDistanceY,
 } from './rect'
 
-import {
-  Coord2d
-} from './coord2d'
-
-import {
-  vectorMult,
-  vectorSub
-} from './vector'
+import { Coord2d } from './coord2d'
 
 //      -15   -5    5     15
 //      |     |     |     |
@@ -49,25 +42,25 @@ import {
 //
 
 const r00_start = [-15, -15] as Coord2d
-const r00_end   = [-5, -5] as Coord2d
+const r00_end = [-5, -5] as Coord2d
 const r01_start = [-15, -5] as Coord2d
-const r01_end   = [-5, 5] as Coord2d
+const r01_end = [-5, 5] as Coord2d
 const r02_start = [-15, 5] as Coord2d
-const r02_end   = [-5, 15] as Coord2d
+const r02_end = [-5, 15] as Coord2d
 
 const r10_start = [-5, -15] as Coord2d
-const r10_end   = [5, -5] as Coord2d
+const r10_end = [5, -5] as Coord2d
 const r11_start = r00_end as Coord2d
-const r11_end   = [5, 5] as Coord2d
+const r11_end = [5, 5] as Coord2d
 const r12_start = r01_end as Coord2d
-const r12_end   = [5, 15] as Coord2d
+const r12_end = [5, 15] as Coord2d
 
 const r20_start = [5, -15] as Coord2d
-const r20_end   = [15, -5] as Coord2d
+const r20_end = [15, -5] as Coord2d
 const r21_start = r10_end as Coord2d
-const r21_end   = [15, 5] as Coord2d
+const r21_end = [15, 5] as Coord2d
 const r22_start = r11_end as Coord2d
-const r22_end   = [15, 15] as Coord2d
+const r22_end = [15, 15] as Coord2d
 
 const r00 = [r00_start, r00_end] as Rect
 const r01 = [r01_start, r01_end] as Rect
@@ -81,17 +74,18 @@ const r22 = [r22_start, r22_end] as Rect
 
 describe('rectCenter', () => {
   test('r00', () => {
-    expect(rectCenter(r00))
-      .toEqual([-10, -10])
+    expect(rectCenter(r00)).toEqual([-10, -10])
   })
   test('r11', () => {
-    expect(rectCenter(r11))
-      .toEqual([0, 0])
+    expect(rectCenter(r11)).toEqual([0, 0])
   })
 })
 
 describe('rect[AXIS]Interval(rect)', () => {
-  const rect = [[20, 80], [100, 200]] as Rect
+  const rect = [
+    [20, 80],
+    [100, 200],
+  ] as Rect
 
   test('rectIntervalOnY(rect)', () => {
     expect(rectIntervalOnY(rect)).toEqual([80, 200])
@@ -102,26 +96,29 @@ describe('rect[AXIS]Interval(rect)', () => {
 })
 
 describe('rectRelativePosition(rect, pos)', () => {
-  const rect = [[20, 80], [100, 200]] as Rect
+  const rect = [
+    [20, 80],
+    [100, 200],
+  ] as Rect
 
   test('[1/2, 1/2]', () => {
-    expect(rectRelativePosition(rect, [1/2, 1/2]))
-      .toEqual([60, 140])
+    expect(rectRelativePosition(rect, [1 / 2, 1 / 2])).toEqual([60, 140])
   })
 
   test('[1, 1]', () => {
-    expect(rectRelativePosition(rect, [1, 1]))
-      .toEqual(rect[1])
+    expect(rectRelativePosition(rect, [1, 1])).toEqual(rect[1])
   })
 
   test('[0, 0]', () => {
-    expect(rectRelativePosition(rect, [0, 0]))
-      .toEqual(rect[0])
+    expect(rectRelativePosition(rect, [0, 0])).toEqual(rect[0])
   })
 })
 
 describe('rect[DIMENSION](rect)', () => {
-  const rect = [[20, 80], [100, 200]] as Rect
+  const rect = [
+    [20, 80],
+    [100, 200],
+  ] as Rect
 
   test('rectWidth(rect)', () => {
     expect(rectWidth(rect)).toEqual(80)
@@ -133,51 +130,63 @@ describe('rect[DIMENSION](rect)', () => {
 })
 
 describe('rectTranslate(rect, delta)', () => {
-  const rect = [[20, 80], [100, 200]] as Rect
+  const rect = [
+    [20, 80],
+    [100, 200],
+  ] as Rect
 
-  test('', () => {
-    expect(rectTranslate(rect, [20, 100]))
-      .toEqual([
-        [40, 180],
-        [120, 300]
-      ])
+  test('rectTranslate(rect, delta)', () => {
+    expect(rectTranslate(rect, [20, 100])).toEqual([
+      [40, 180],
+      [120, 300],
+    ])
   })
 })
 
 describe('rectContainsCoord(rect, ...points)', () => {
   test('both within', () => {
-    const rect:Rect = [[-20, 100], [20, 200]]
+    const rect: Rect = [
+      [-20, 100],
+      [20, 200],
+    ]
 
-    expect(rectContainsCoord(rect, [15, 120]))
-      .toEqual(true)
+    expect(rectContainsCoord(rect, [15, 120])).toEqual(true)
   })
 
   test('both at lower boundary', () => {
-    const rect:Rect = [[-20, 100], [20, 200]]
+    const rect: Rect = [
+      [-20, 100],
+      [20, 200],
+    ]
 
-    expect(rectContainsCoord(rect, [-20, 100]))
-      .toEqual(true)
+    expect(rectContainsCoord(rect, [-20, 100])).toEqual(true)
   })
 
   test('both at upper boundary', () => {
-    const rect:Rect = [[-20, 100], [20, 200]]
+    const rect: Rect = [
+      [-20, 100],
+      [20, 200],
+    ]
 
-    expect(rectContainsCoord(rect, [20, 200]))
-      .toEqual(true)
+    expect(rectContainsCoord(rect, [20, 200])).toEqual(true)
   })
 
   test('x lower than boundary', () => {
-    const rect:Rect = [[-20, 100], [20, 200]]
+    const rect: Rect = [
+      [-20, 100],
+      [20, 200],
+    ]
 
-    expect(rectContainsCoord(rect, [-21, 200]))
-      .toEqual(false)
+    expect(rectContainsCoord(rect, [-21, 200])).toEqual(false)
   })
 
   test('y lower than boundary', () => {
-    const rect:Rect = [[-20, 100], [20, 200]]
+    const rect: Rect = [
+      [-20, 100],
+      [20, 200],
+    ]
 
-    expect(rectContainsCoord(rect, [0, 99]))
-      .toEqual(false)
+    expect(rectContainsCoord(rect, [0, 99])).toEqual(false)
   })
 })
 
@@ -227,19 +236,19 @@ describe('rectScale(rect, delta, origin)', () => {
 
     expect(r11_).toEqual([
       [-5, -5],
-      [15, 15]
+      [15, 15],
     ])
     expect(r21_).toEqual([
       [15, -5],
-      [35, 15]
+      [35, 15],
     ])
     expect(r12_).toEqual([
       [-5, 15],
-      [15, 35]
+      [15, 35],
     ])
     expect(r22_).toEqual([
       [15, 15],
-      [35, 35]
+      [35, 35],
     ])
   })
 
@@ -285,78 +294,67 @@ describe('rectScale(rect, delta, origin)', () => {
 
     expect(r01_).toEqual([
       [-15, -5],
-      [-35, 5]
+      [-35, 5],
     ])
     expect(r02_).toEqual([
       [-15, 5],
-      [-35, 15]
+      [-35, 15],
     ])
 
     expect(r11_).toEqual([
       [-35, -5],
-      [-55, 5]
+      [-55, 5],
     ])
     expect(r12_).toEqual([
       [-35, 5],
-      [-55, 15]
+      [-55, 15],
     ])
 
     expect(r21_).toEqual([
       [-55, -5],
-      [-75, 5]
+      [-75, 5],
     ])
     expect(r22_).toEqual([
       [-55, 5],
-      [-75, 15]
+      [-75, 15],
     ])
   })
 })
 
 describe('rects[AXIS]IntersectionSet(rect, ...rects), rect[AXIS]Intersect(rect, ...rects)', () => {
-
   test('r00 and r22 (no intersection)', () => {
     expect(rectIntersectsOnY(r00, r22)).toEqual(false)
     expect(rectIntersectsOnX(r00, r22)).toEqual(false)
   })
 
   test('[r00_start, r22_end] and r11 (containing)', () => {
-    expect(rectIntersectionOnY(
-      [r00_start, r22_end],
-      r11
-    ))
-    .toEqual([rectIntervalOnY(r11)])
+    expect(rectIntersectionOnY([r00_start, r22_end], r11)).toEqual([
+      rectIntervalOnY(r11),
+    ])
 
-    expect(rectIntersectionOnX(
-      [r00_start, r22_end],
-      r11
-    ))
-    .toEqual([rectIntervalOnX(r11)])
+    expect(rectIntersectionOnX([r00_start, r22_end], r11)).toEqual([
+      rectIntervalOnX(r11),
+    ])
   })
 
   test('[r00_start, r11_end] and [r11_start, r22_end] (overlapping)', () => {
-    const first = [r00_start, r11_end]
-    const other = [r11_start, r22_end]
+    const first: Rect = [r00_start, r11_end]
+    const other: Rect = [r11_start, r22_end]
 
-    expect(rectIntersectionOnY(first, other))
-      .toEqual([rectIntervalOnY(r11)])
+    expect(rectIntersectionOnY(first, other)).toEqual([rectIntervalOnY(r11)])
 
-    expect(rectIntersectionOnX(first, other))
-      .toEqual([rectIntervalOnX(r11)])
+    expect(rectIntersectionOnX(first, other)).toEqual([rectIntervalOnX(r11)])
 
-    expect(rectIntersectionRect(first, other))
-      .toEqual(r11)
+    expect(rectIntersectionRect(first, other)).toEqual(r11)
   })
 
   test('r00 and r01 (exact on x, tangential on y)', () => {
-    expect(rectIntersectionOnY(r00, r01))
-      .toEqual([[r00_end[1], r00_end[1]]])
-    expect(rectIntersectionOnX(r00, r01))
-      .toEqual([rectIntervalOnX(r00)])
-    expect(rectIntersectionRect(r00, r01))
-      .toEqual([
-        [r00_start[0], r00_end[1]],
-        [r00_end[1], r00_end[1]]
-      ])
+    expect(rectIntersectionOnY(r00, r01)).toEqual([[r00_end[1], r00_end[1]]])
+    expect(rectIntersectionOnX(r00, r01)).toEqual([rectIntervalOnX(r00)])
+    expect(rectIntersectionRect(r00, r01)).toEqual([
+      [r00_start[0], r00_end[1]],
+      [r00_end[1], r00_end[1]],
+    ])
   })
 
   test('[r00_start, r10_end], [r10_start, r20_end] and r22 (2 overlapping + 1 out)', () => {
@@ -371,25 +369,24 @@ describe('rects[AXIS]IntersectionSet(rect, ...rects), rect[AXIS]Intersect(rect, 
     expect(rectIntersectsOnY(first, r22)).toEqual(false)
     expect(rectIntersectsOnY(second, r22)).toEqual(false)
 
-    expect(rectIntersectionOnX(first, r22))
-      .toEqual([[r10_end[0], r10_end[0]]]) // tangential
-    expect(rectIntersectionOnX(second, r22))
-      .toEqual([rectIntervalOnX(r22)]) // containing
+    expect(rectIntersectionOnX(first, r22)).toEqual([[r10_end[0], r10_end[0]]]) // tangential
+    expect(rectIntersectionOnX(second, r22)).toEqual([rectIntervalOnX(r22)]) // containing
   })
 })
 
 describe('rectContainingCoords(coords)', () => {
-  test('', () => {
-    expect(rectContainingCoords([
-      [20, 20],
-      [100, 0],
-      [50, 80],
-      [50, -80],
-      [10, 200]
-    ]))
-    .toEqual([
+  test('rectContainingCoords(coords)', () => {
+    expect(
+      rectContainingCoords([
+        [20, 20],
+        [100, 0],
+        [50, 80],
+        [50, -80],
+        [10, 200],
+      ])
+    ).toEqual([
       [10, -80],
-      [100, 200]
+      [100, 200],
     ])
   })
 })
@@ -569,4 +566,3 @@ describe('rectDistanceY(rect0, rect1)', () => {
     expect(rectDistanceY(r22, r00)).toEqual(10)
   })
 })
-

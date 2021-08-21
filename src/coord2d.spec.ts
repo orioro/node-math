@@ -1,6 +1,4 @@
-import {
-  vectorSum
-} from './vector'
+import { vectorSum } from './vector'
 
 import {
   Coord2d,
@@ -13,7 +11,7 @@ import {
 } from './coord2d'
 
 describe('coord2dTranslate(coord, delta)', () => {
-  test('', () => {
+  test('coord2dTranslate(coord, delta)', () => {
     expect(coord2dTranslate([0, 0], [20, 100])).toEqual([20, 100])
     expect(coord2dTranslate([0, 0], [-20, 100])).toEqual([-20, 100])
   })
@@ -23,36 +21,29 @@ describe('coord2dScale(coord, delta, origin)', () => {
   test('origin [0, 0]', () => {
     const coord = [10, 10] as Coord2d
 
-    expect(coord2dScale(coord, [2, 2]))
-      .toEqual([20, 20])
-    expect(coord2dScale(coord, [-2, -1.5]))
-      .toEqual([-20, -15])
+    expect(coord2dScale(coord, [2, 2])).toEqual([20, 20])
+    expect(coord2dScale(coord, [-2, -1.5])).toEqual([-20, -15])
   })
 
   test('origin [5, 5]', () => {
     const coord = [10, 10] as Coord2d
     const origin = [5, 5] as Coord2d
 
-    expect(coord2dScale(coord, [2, 2], origin))
-      .toEqual([15, 15])
+    expect(coord2dScale(coord, [2, 2], origin)).toEqual([15, 15])
 
-    expect(coord2dScale(coord, [-2, -2], origin))
-      .toEqual([-5, -5])
+    expect(coord2dScale(coord, [-2, -2], origin)).toEqual([-5, -5])
   })
 
   test('origin [15, 15]', () => {
     const coord = [10, 10] as Coord2d
     const origin = [15, 15] as Coord2d
 
-    expect(coord2dScale(coord, [2, 2], origin))
-      .toEqual([5, 5])
-    expect(coord2dScale(coord, [-2, -2], origin))
-      .toEqual([25, 25])
+    expect(coord2dScale(coord, [2, 2], origin)).toEqual([5, 5])
+    expect(coord2dScale(coord, [-2, -2], origin)).toEqual([25, 25])
   })
 })
 
 describe('coord2dIs[DIRECTION](ref, coord)', () => {
-
   const REF = [0, 0] as Coord2d
   const S = [0, 1] as Coord2d
   const N = [0, -1] as Coord2d

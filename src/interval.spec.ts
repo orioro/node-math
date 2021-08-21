@@ -1,7 +1,4 @@
-import {
-  intervalContains,
-  intervalContainingValues
-} from './interval'
+import { intervalContains, intervalContainingValues } from './interval'
 
 describe('interval', () => {
   describe('intervalContains(interval, valueOrInterval)', () => {
@@ -46,20 +43,18 @@ describe('interval', () => {
 
   describe('intervalContainingValues(value, ...values)', () => {
     test('[value]', () => {
-      expect(intervalContainingValues([-50, 50, 0]))
-        .toEqual([-50, 50])
+      expect(intervalContainingValues([-50, 50, 0])).toEqual([-50, 50])
     })
     test('[]value', () => {
-      expect(intervalContainingValues([-50, 50, 70]))
-        .toEqual([-50, 70])
+      expect(intervalContainingValues([-50, 50, 70])).toEqual([-50, 70])
     })
     test('value[]', () => {
-      expect(intervalContainingValues([-50, 50, -70]))
-        .toEqual([-70, 50])
+      expect(intervalContainingValues([-50, 50, -70])).toEqual([-70, 50])
     })
     test('v1[v4]v2,v3', () => {
-      expect(intervalContainingValues([-50, 50, -70, 70, 100, 30]))
-        .toEqual([-70, 100])
+      expect(intervalContainingValues([-50, 50, -70, 70, 100, 30])).toEqual([
+        -70, 100,
+      ])
     })
   })
 })
